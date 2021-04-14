@@ -12,7 +12,7 @@ public abstract class CombinedSchemaValidationEvent extends ValidationEvent<Comb
     final Schema subSchema;
 
     public CombinedSchemaValidationEvent(CombinedSchema schema, Schema subSchema, Object instance) {
-        super(schema, instance, new ArrayList<>());
+        super(schema, instance);
         this.subSchema = subSchema;
     }
     public CombinedSchemaValidationEvent(CombinedSchema schema, Schema subSchema, Object instance, List<String> path) {

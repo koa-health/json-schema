@@ -16,9 +16,7 @@ public abstract class ValidationEvent<S extends Schema> {
     protected final List<String> path;
 
     protected ValidationEvent(S schema, Object instance) {
-        this.schema = schema;
-        this.instance = instance;
-        this.path = new ArrayList<>();
+        this(schema, instance, new ArrayList<>());
     }
 
     protected ValidationEvent(S schema, Object instance, List<String> path) {

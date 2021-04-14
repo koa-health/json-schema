@@ -13,7 +13,7 @@ public class SchemaReferencedEvent extends ValidationEvent<ReferenceSchema> {
     private final Schema referredSchema;
 
     public SchemaReferencedEvent(ReferenceSchema schema, Object instance, Schema referredSchema) {
-        super(schema, instance, new ArrayList<>());
+        super(schema, instance);
         this.referredSchema = referredSchema;
     }
     public SchemaReferencedEvent(ReferenceSchema schema, Object instance, Schema referredSchema, 
@@ -21,6 +21,7 @@ public class SchemaReferencedEvent extends ValidationEvent<ReferenceSchema> {
         super(schema, instance, path);
         this.referredSchema = referredSchema;
     }
+
 
     @Override
     void describeTo(JSONObject obj) {

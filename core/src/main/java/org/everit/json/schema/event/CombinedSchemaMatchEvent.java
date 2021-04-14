@@ -11,7 +11,7 @@ public class CombinedSchemaMatchEvent extends CombinedSchemaValidationEvent {
 
     public CombinedSchemaMatchEvent(CombinedSchema schema, Schema subSchema,
                                     Object instance) {
-        super(schema, subSchema, instance, new ArrayList<>());
+        super(schema, subSchema, instance);
     }
     public CombinedSchemaMatchEvent(CombinedSchema schema, Schema subSchema,
                                     Object instance, List<String> path) {

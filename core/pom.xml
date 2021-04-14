@@ -278,6 +278,11 @@
             <version>1.3</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.everit-org.json-schema</groupId>
+            <artifactId>org.everit.json.schema</artifactId>
+            <version>1.12.2</version>
+        </dependency>
     </dependencies>
 
     <repositories>
