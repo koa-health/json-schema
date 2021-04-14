@@ -3,6 +3,7 @@ package org.everit.json.schema;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.everit.json.schema.regexp.Regexp;
@@ -22,11 +23,11 @@ public class StringSchemaValidatingVisitor extends Visitor {
         this.owner = requireNonNull(owner, "failureReporter cannot be null");
     }
 
-    @Override void visitStringSchema(StringSchema stringSchema) {
+    @Override void visitStringSchema(StringSchema stringSchema, List<String> path) {
         if (owner.passesTypeCheck(String.class, stringSchema.requireString(), stringSchema.isNullable())) {
             stringSubject = (String) subject;
             stringLength = stringSubject.codePointCount(0, stringSubject.length());
-            super.visitStringSchema(stringSchema);
+            super.visitStringSchema(stringSchema, path);
         }
     }
 

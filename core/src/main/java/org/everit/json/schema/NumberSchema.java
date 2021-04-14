@@ -1,5 +1,7 @@
 package org.everit.json.schema;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -163,7 +165,11 @@ public class NumberSchema extends Schema {
     }
 
     @Override void accept(Visitor visitor) {
-        visitor.visitNumberSchema(this);
+        visitor.visitNumberSchema(this, new ArrayList<>());
+    }
+
+    @Override void accept(Visitor visitor,  List<String> path) {
+        visitor.visitNumberSchema(this, path);
     }
 
     @Override

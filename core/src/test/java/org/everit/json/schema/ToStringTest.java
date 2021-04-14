@@ -6,6 +6,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.everit.json.schema.internal.JSONPrinter;
 import org.json.JSONObject;
@@ -35,8 +37,8 @@ public class ToStringTest {
             super(builder);
         }
 
-        @Override void accept(Visitor visitor) {
-            visitor.visitSchema(this);
+        @Override void accept(Visitor visitor, List<String> path) {
+            visitor.visitSchema(this, path);
         }
 
         @Override void describePropertiesTo(JSONPrinter writer) {

@@ -1,5 +1,6 @@
 package org.everit.json.schema;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,12 +9,24 @@ import org.everit.json.schema.regexp.Regexp;
 
 abstract class Visitor {
 
-    void visitSchema(Schema schema) {
-
+    List<String> appendPath(List<String> path, int index) {
+        return appendPath(path, String.format("[%d]", index));
     }
 
-    void visitNumberSchema(NumberSchema numberSchema) {
-        visitSchema(numberSchema);
+    List<String> appendPath(List<String> path, String field) {
+        List<String> newList = new ArrayList<>(path);
+        newList.add(field);
+        return newList;
+    }
+
+    //void visitSchema(Schema schema) {}
+    void visitSchema(Schema schema, List<String> path) {
+        //schema.accept(this, path);
+    }
+
+
+    void visitNumberSchema(NumberSchema numberSchema, List<String> path) {
+        visitSchema(numberSchema, path);
         visitExclusiveMinimum(numberSchema.isExclusiveMinimum());
         visitMinimum(numberSchema.getMinimum());
         visitExclusiveMinimumLimit(numberSchema.getExclusiveMinimumLimit());
@@ -48,30 +61,34 @@ abstract class Visitor {
         schema.accept(this);
     }
 
-    void visitArraySchema(ArraySchema arraySchema) {
-        visitSchema(arraySchema);
+    void visit(Schema schema, List<String> path) {
+        schema.accept(this, path);
+    }
+
+    void visitArraySchema(ArraySchema arraySchema, List<String> path) {
+        visitSchema(arraySchema, path);
         visitMinItems(arraySchema.getMinItems());
         visitMaxItems(arraySchema.getMaxItems());
         visitUniqueItems(arraySchema.needsUniqueItems());
         if (arraySchema.getAllItemSchema() != null) {
-            visitAllItemSchema(arraySchema.getAllItemSchema());
+            visitAllItemSchema(arraySchema.getAllItemSchema(), path);
         }
         visitAdditionalItems(arraySchema.permitsAdditionalItems());
         if (arraySchema.getItemSchemas() != null) {
-            visitItemSchemas(arraySchema.getItemSchemas());
+            visitItemSchemas(arraySchema.getItemSchemas(), path);
         }
         if (arraySchema.getSchemaOfAdditionalItems() != null) {
-            visitSchemaOfAdditionalItems(arraySchema.getSchemaOfAdditionalItems());
+            visitSchemaOfAdditionalItems(arraySchema.getSchemaOfAdditionalItems(), path);
         }
         if (arraySchema.getContainedItemSchema() != null) {
-            visitContainedItemSchema(arraySchema.getContainedItemSchema());
+            visitContainedItemSchema(arraySchema.getContainedItemSchema(), path);
         }
     }
 
-    void visitItemSchemas(List<Schema> itemSchemas) {
+    void visitItemSchemas(List<Schema> itemSchemas, List<String> path) {
         if (itemSchemas != null) {
             for (int i = 0; i < itemSchemas.size(); ++i) {
-                visitItemSchema(i, itemSchemas.get(i));
+                visitItemSchema(i, itemSchemas.get(i), path);
             }
         }
     }
@@ -85,63 +102,63 @@ abstract class Visitor {
     void visitUniqueItems(boolean uniqueItems) {
     }
 
-    void visitAllItemSchema(Schema allItemSchema) {
-        visitSchema(allItemSchema);
+    void visitAllItemSchema(Schema allItemSchema, List<String> path) {
+        visitSchema(allItemSchema, path);
     }
 
     void visitAdditionalItems(boolean additionalItems) {
     }
 
-    void visitItemSchema(int index, Schema itemSchema) {
-        visitSchema(itemSchema);
+    void visitItemSchema(int index, Schema itemSchema, List<String> path) {
+        visitSchema(itemSchema, path);
     }
 
-    void visitSchemaOfAdditionalItems(Schema schemaOfAdditionalItems) {
-        visitSchema(schemaOfAdditionalItems);
+    void visitSchemaOfAdditionalItems(Schema schemaOfAdditionalItems, List<String> path) {
+        visitSchema(schemaOfAdditionalItems, path);
     }
 
-    void visitContainedItemSchema(Schema containedItemSchema) {
-        visitSchema(containedItemSchema);
+    void visitContainedItemSchema(Schema containedItemSchema, List<String> path) {
+        visitSchema(containedItemSchema, path);
     }
 
-    void visitBooleanSchema(BooleanSchema schema) {
-        visitSchema(schema);
+    void visitBooleanSchema(BooleanSchema schema, List<String> path) {
+        visitSchema(schema, path);
     }
 
-    void visitNullSchema(NullSchema nullSchema) {
-        visitSchema(nullSchema);
+    void visitNullSchema(NullSchema nullSchema, List<String> path) {
+        visitSchema(nullSchema, path);
     }
 
-    void visitEmptySchema(EmptySchema emptySchema) {
-        visitSchema(emptySchema);
+    void visitEmptySchema(EmptySchema emptySchema, List<String> path) {
+        visitSchema(emptySchema, path);
     }
 
-    void visitConstSchema(ConstSchema constSchema) {
-        visitSchema(constSchema);
+    void visitConstSchema(ConstSchema constSchema, List<String> path) {
+        visitSchema(constSchema, path);
     }
 
-    void visitEnumSchema(EnumSchema enumSchema) {
-        visitSchema(enumSchema);
+    void visitEnumSchema(EnumSchema enumSchema, List<String> path) {
+        visitSchema(enumSchema, path);
     }
 
-    void visitFalseSchema(FalseSchema falseSchema) {
-        visitSchema(falseSchema);
+    void visitFalseSchema(FalseSchema falseSchema, List<String> path) {
+        visitSchema(falseSchema, path);
     }
 
-    void visitNotSchema(NotSchema notSchema) {
-        visitSchema(notSchema);
+    void visitNotSchema(NotSchema notSchema, List<String> path) {
+        visitSchema(notSchema, path);
         notSchema.getMustNotMatch().accept(this);
     }
 
-    void visitReferenceSchema(ReferenceSchema referenceSchema) {
-        visitSchema(referenceSchema);
+    void visitReferenceSchema(ReferenceSchema referenceSchema, List<String> path) {
+        visitSchema(referenceSchema, path);
     }
 
-    void visitObjectSchema(ObjectSchema objectSchema) {
-        visitSchema(objectSchema);
-        visitRequiredProperties(objectSchema.getRequiredProperties());
+    void visitObjectSchema(ObjectSchema objectSchema, List<String> path) {
+        visitSchema(objectSchema, path);
+        visitRequiredProperties(objectSchema.getRequiredProperties(), path);
         if (objectSchema.getPropertyNameSchema() != null) {
-            visitPropertyNameSchema(objectSchema.getPropertyNameSchema());
+            visitPropertyNameSchema(objectSchema.getPropertyNameSchema(), path);
         }
         visitMinProperties(objectSchema.getMinProperties());
         visitMaxProperties(objectSchema.getMaxProperties());
@@ -150,53 +167,53 @@ abstract class Visitor {
         }
         visitAdditionalProperties(objectSchema.permitsAdditionalProperties());
         if (objectSchema.getSchemaOfAdditionalProperties() != null) {
-            visitSchemaOfAdditionalProperties(objectSchema.getSchemaOfAdditionalProperties());
+            visitSchemaOfAdditionalProperties(objectSchema.getSchemaOfAdditionalProperties(), path);
         }
         Map<Regexp, Schema> patternProperties = objectSchema.getRegexpPatternProperties();
         if (patternProperties != null) {
-            visitPatternProperties(patternProperties);
+            visitPatternProperties(patternProperties, path);
         }
         for (Map.Entry<String, Schema> schemaDep : objectSchema.getSchemaDependencies().entrySet()) {
-            visitSchemaDependency(schemaDep.getKey(), schemaDep.getValue());
+            visitSchemaDependency(schemaDep.getKey(), schemaDep.getValue(), path);
         }
         Map<String, Schema> propertySchemas = objectSchema.getPropertySchemas();
         if (propertySchemas != null) {
-            visitPropertySchemas(propertySchemas);
+            visitPropertySchemas(propertySchemas, path);
         }
     }
 
-    void visitRequiredProperties(List<String> requiredProperties) {
+    void visitRequiredProperties(List<String> requiredProperties, List<String> path) {
         for (String requiredPropName : requiredProperties) {
-            visitRequiredPropertyName(requiredPropName);
+            visitRequiredPropertyName(requiredPropName, path);
         }
     }
 
-    void visitPatternProperties(Map<Regexp, Schema> patternProperties) {
+    void visitPatternProperties(Map<Regexp, Schema> patternProperties, List<String> path) {
         for (Map.Entry<Regexp, Schema> entry : patternProperties.entrySet()) {
-            visitPatternPropertySchema(entry.getKey(), entry.getValue());
+            visitPatternPropertySchema(entry.getKey(), entry.getValue(), path);
         }
     }
 
-    void visitPropertySchemas(Map<String, Schema> propertySchemas) {
+    void visitPropertySchemas(Map<String, Schema> propertySchemas, List<String> path) {
         for (Map.Entry<String, Schema> entry : propertySchemas.entrySet()) {
-            visitPropertySchema(entry.getKey(), entry.getValue());
+            visitPropertySchema(entry.getKey(), entry.getValue(), path);
         }
     }
 
-    void visitPropertySchema(String properyName, Schema schema) {
-        visitSchema(schema);
+    void visitPropertySchema(String properyName, Schema schema, List<String> path) {
+        visitSchema(schema, path);
     }
 
-    void visitSchemaDependency(String propKey, Schema schema) {
-        visitSchema(schema);
+    void visitSchemaDependency(String propKey, Schema schema, List<String> path) {
+        visitSchema(schema, path);
     }
 
-    void visitPatternPropertySchema(Regexp propertyNamePattern, Schema schema) {
-        visitSchema(schema);
+    void visitPatternPropertySchema(Regexp propertyNamePattern, Schema schema, List<String> path) {
+        visitSchema(schema, path);
     }
 
-    void visitSchemaOfAdditionalProperties(Schema schemaOfAdditionalProperties) {
-        visitSchema(schemaOfAdditionalProperties);
+    void visitSchemaOfAdditionalProperties(Schema schemaOfAdditionalProperties, List<String> path) {
+        visitSchema(schemaOfAdditionalProperties, path);
     }
 
     void visitAdditionalProperties(boolean additionalProperties) {
@@ -211,15 +228,15 @@ abstract class Visitor {
     void visitMinProperties(Integer minProperties) {
     }
 
-    void visitPropertyNameSchema(Schema propertyNameSchema) {
-        visitSchema(propertyNameSchema);
+    void visitPropertyNameSchema(Schema propertyNameSchema, List<String> path) {
+        visitSchema(propertyNameSchema, path);
     }
 
-    void visitRequiredPropertyName(String requiredPropName) {
+    void visitRequiredPropertyName(String requiredPropName, List<String> path) {
     }
 
-    void visitStringSchema(StringSchema stringSchema) {
-        visitSchema(stringSchema);
+    void visitStringSchema(StringSchema stringSchema, List<String> path) {
+        visitSchema(stringSchema, path);
         visitMinLength(stringSchema.getMinLength());
         visitMaxLength(stringSchema.getMaxLength());
         visitPattern(stringSchema.getRegexpPattern());
@@ -238,26 +255,26 @@ abstract class Visitor {
     void visitMinLength(Integer minLength) {
     }
 
-    void visitCombinedSchema(CombinedSchema combinedSchema) {
-        visitSchema(combinedSchema);
+    void visitCombinedSchema(CombinedSchema combinedSchema, List<String> path) {
+        visitSchema(combinedSchema, path);
     }
 
-    void visitConditionalSchema(ConditionalSchema conditionalSchema) {
-        visitSchema(conditionalSchema);
-        conditionalSchema.getIfSchema().ifPresent(this::visitIfSchema);
-        conditionalSchema.getThenSchema().ifPresent(this::visitThenSchema);
-        conditionalSchema.getElseSchema().ifPresent(this::visitElseSchema);
+    void visitConditionalSchema(ConditionalSchema conditionalSchema, List<String> path) {
+        visitSchema(conditionalSchema, path);
+        conditionalSchema.getIfSchema().ifPresent(schema -> visitIfSchema(schema, path));
+        conditionalSchema.getThenSchema().ifPresent(schema -> visitThenSchema(schema, path));
+        conditionalSchema.getElseSchema().ifPresent(schema -> visitElseSchema(schema, path));
     }
 
-    void visitIfSchema(Schema ifSchema) {
-        visitSchema(ifSchema);
+    void visitIfSchema(Schema ifSchema, List<String> path) {
+        visitSchema(ifSchema, path);
     }
 
-    void visitThenSchema(Schema thenSchema) {
-        visitSchema(thenSchema);
+    void visitThenSchema(Schema thenSchema, List<String> path) {
+        visitSchema(thenSchema, path);
     }
 
-    void visitElseSchema(Schema elseSchema) {
-        visitSchema(elseSchema);
+    void visitElseSchema(Schema elseSchema, List<String> path) {
+        visitSchema(elseSchema, path);
     }
 }

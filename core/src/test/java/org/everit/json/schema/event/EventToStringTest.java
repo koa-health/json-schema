@@ -17,6 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 public class EventToStringTest {
 
     private static final ResourceLoader LOADER = new ResourceLoader("/org/everit/jsonvalidator/event/");
@@ -45,7 +47,7 @@ public class EventToStringTest {
         INSTANCE.put("hello", new JSONArray("[\"world\"]"));
     }
 
-    private static final SchemaReferencedEvent REF_EVENT = new SchemaReferencedEvent(REF_SCHEMA, INSTANCE, REFERRED_SCHEMA);
+    private static final SchemaReferencedEvent REF_EVENT = new SchemaReferencedEvent(REF_SCHEMA, INSTANCE, REFERRED_SCHEMA, new ArrayList<>());
 
     @Test
     public void schemaReferenceEventToStringTest() {
@@ -96,7 +98,7 @@ public class EventToStringTest {
     @Test
     public void combinedSchemaMatchEventToString() {
         JSONObject expected = LOADER.readObj("combined-schema-match.json");
-        CombinedSchemaMatchEvent subject = new CombinedSchemaMatchEvent(COMBINED_SCHEMA, TrueSchema.INSTANCE, INSTANCE);
+        CombinedSchemaMatchEvent subject = new CombinedSchemaMatchEvent(COMBINED_SCHEMA, TrueSchema.INSTANCE, INSTANCE, new ArrayList<>());
 
         JSONObject actual = new JSONObject(subject.toString());
 
@@ -107,7 +109,7 @@ public class EventToStringTest {
     public void combinedSchemaMismatchEventToString() {
         JSONObject expected = LOADER.readObj("combined-schema-mismatch.json");
         ValidationException exc = new ValidationException(COMBINED_SCHEMA, "message", "anyOf", "#/schema/location");
-        CombinedSchemaMismatchEvent subject = new CombinedSchemaMismatchEvent(COMBINED_SCHEMA, FalseSchema.INSTANCE, INSTANCE, exc);
+        CombinedSchemaMismatchEvent subject = new CombinedSchemaMismatchEvent(COMBINED_SCHEMA, FalseSchema.INSTANCE, INSTANCE, exc, new ArrayList<>());
 
         JSONObject actual = new JSONObject(subject.toJSON(true, true).toString());
 

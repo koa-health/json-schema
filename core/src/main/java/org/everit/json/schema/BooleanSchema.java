@@ -1,7 +1,8 @@
 package org.everit.json.schema;
 
 import java.io.StringWriter;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.everit.json.schema.internal.JSONPrinter;
 
 /**
@@ -45,7 +46,12 @@ public class BooleanSchema extends Schema {
     }
 
     @Override void accept(Visitor visitor) {
-        visitor.visitBooleanSchema(this);
+        visitor.visitBooleanSchema(this, new ArrayList<>());
+    }
+
+    @Override
+    void accept(Visitor visitor, List<String> path) {
+        visitor.visitBooleanSchema(this, path);
     }
 
     @Override

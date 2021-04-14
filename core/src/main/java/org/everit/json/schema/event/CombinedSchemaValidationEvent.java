@@ -1,5 +1,7 @@
 package org.everit.json.schema.event;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import org.everit.json.schema.CombinedSchema;
@@ -10,7 +12,11 @@ public abstract class CombinedSchemaValidationEvent extends ValidationEvent<Comb
     final Schema subSchema;
 
     public CombinedSchemaValidationEvent(CombinedSchema schema, Schema subSchema, Object instance) {
-        super(schema, instance);
+        super(schema, instance, new ArrayList<>());
+        this.subSchema = subSchema;
+    }
+    public CombinedSchemaValidationEvent(CombinedSchema schema, Schema subSchema, Object instance, List<String> path) {
+        super(schema, instance, path);
         this.subSchema = subSchema;
     }
 

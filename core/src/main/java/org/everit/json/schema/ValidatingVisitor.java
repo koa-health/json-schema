@@ -44,12 +44,12 @@ class ValidatingVisitor extends Visitor {
     private final ReadWriteValidator readWriteValidator;
 
     @Override
-    void visit(Schema schema) {
+    void visit(Schema schema, List<String> path) {
         if (Boolean.FALSE.equals(schema.isNullable()) && isNull(subject)) {
             failureReporter.failure("value cannot be null", "nullable");
         }
         readWriteValidator.validate(schema, subject);
-        super.visit(schema);
+        super.visit(schema, path);
     }
 
     ValidatingVisitor(Object subject, ValidationFailureReporter failureReporter, ReadWriteValidator readWriteValidator,
@@ -64,31 +64,31 @@ class ValidatingVisitor extends Visitor {
     }
 
     @Override
-    void visitNumberSchema(NumberSchema numberSchema) {
-        numberSchema.accept(new NumberSchemaValidatingVisitor(subject, this));
+    void visitNumberSchema(NumberSchema numberSchema, List<String> path) {
+        numberSchema.accept(new NumberSchemaValidatingVisitor(subject, this), path);
     }
 
     @Override
-    void visitArraySchema(ArraySchema arraySchema) {
-        arraySchema.accept(new ArraySchemaValidatingVisitor(subject, this));
+    void visitArraySchema(ArraySchema arraySchema, List<String> path) {
+        arraySchema.accept(new ArraySchemaValidatingVisitor(subject, this), path);
     }
 
     @Override
-    void visitBooleanSchema(BooleanSchema schema) {
+    void visitBooleanSchema(BooleanSchema schema, List<String> path) {
         if (!(subject instanceof Boolean)) {
             failureReporter.failure(Boolean.class, subject);
         }
     }
 
     @Override
-    void visitNullSchema(NullSchema nullSchema) {
+    void visitNullSchema(NullSchema nullSchema, List<String> path) {
         if (!(subject == null || subject == JSONObject.NULL)) {
             failureReporter.failure("expected: null, found: " + subject.getClass().getSimpleName(), "type");
         }
     }
 
     @Override
-    void visitConstSchema(ConstSchema constSchema) {
+    void visitConstSchema(ConstSchema constSchema, List<String> path) {
         if (isNull(subject) && isNull(constSchema.getPermittedValue())) {
             return;
         }
@@ -99,7 +99,7 @@ class ValidatingVisitor extends Visitor {
     }
 
     @Override
-    void visitEnumSchema(EnumSchema enumSchema) {
+    void visitEnumSchema(EnumSchema enumSchema, List<String> path) {
         Object effectiveSubject = toJavaValue(subject);
         for (Object possibleValue : enumSchema.getPossibleValues()) {
             if (ObjectComparator.deepEquals(possibleValue, effectiveSubject)) {
@@ -110,55 +110,55 @@ class ValidatingVisitor extends Visitor {
     }
 
     @Override
-    void visitFalseSchema(FalseSchema falseSchema) {
+    void visitFalseSchema(FalseSchema falseSchema, List<String> path) {
         failureReporter.failure("false schema always fails", "false");
     }
 
     @Override
-    void visitNotSchema(NotSchema notSchema) {
+    void visitNotSchema(NotSchema notSchema, List<String> path) {
         Schema mustNotMatch = notSchema.getMustNotMatch();
-        ValidationException failure = getFailureOfSchema(mustNotMatch, subject);
+        ValidationException failure = getFailureOfSchema(mustNotMatch, subject, path);
         if (failure == null) {
             failureReporter.failure("subject must not be valid against schema " + mustNotMatch, "not");
         }
     }
 
     @Override
-    void visitReferenceSchema(ReferenceSchema referenceSchema) {
+    void visitReferenceSchema(ReferenceSchema referenceSchema, List<String> path) {
         Schema referredSchema = referenceSchema.getReferredSchema();
         if (referredSchema == null) {
             throw new IllegalStateException("referredSchema must be injected before validation");
         }
-        ValidationException failure = getFailureOfSchema(referredSchema, subject);
+        ValidationException failure = getFailureOfSchema(referredSchema, subject, path);
         if (failure != null) {
             failureReporter.failure(failure);
         }
-        if (validationListener != null) {
-            validationListener.schemaReferenced(new SchemaReferencedEvent(referenceSchema, subject, referredSchema));
+        else if (validationListener != null) {
+            validationListener.schemaReferenced(new SchemaReferencedEvent(referenceSchema, subject, referredSchema, path));
         }
     }
 
     @Override
-    void visitObjectSchema(ObjectSchema objectSchema) {
-        objectSchema.accept(new ObjectSchemaValidatingVisitor(subject, this));
+    void visitObjectSchema(ObjectSchema objectSchema, List<String> path) {
+        objectSchema.accept(new ObjectSchemaValidatingVisitor(subject, this), path);
     }
 
     @Override
-    void visitStringSchema(StringSchema stringSchema) {
-        stringSchema.accept(new StringSchemaValidatingVisitor(subject, this));
+    void visitStringSchema(StringSchema stringSchema, List<String> path) {
+        stringSchema.accept(new StringSchemaValidatingVisitor(subject, this), path);
     }
 
     @Override
-    void visitCombinedSchema(CombinedSchema combinedSchema) {
+    void visitCombinedSchema(CombinedSchema combinedSchema, List<String> path) {
         Collection<Schema> subschemas = combinedSchema.getSubschemas();
         List<ValidationException> failures = new ArrayList<>(subschemas.size());
         CombinedSchema.ValidationCriterion criterion = combinedSchema.getCriterion();
         for (Schema subschema : subschemas) {
-            ValidationException exception = getFailureOfSchema(subschema, subject);
+            ValidationException exception = getFailureOfSchema(subschema, subject, path);
             if (null != exception) {
                 failures.add(exception);
             }
-            reportSchemaMatchEvent(combinedSchema, subschema, exception);
+            reportSchemaMatchEvent(combinedSchema, subschema, exception, path);
         }
         int matchingCount = subschemas.size() - failures.size();
         try {
@@ -174,22 +174,22 @@ class ValidatingVisitor extends Visitor {
     }
 
     @Override
-    void visitConditionalSchema(ConditionalSchema conditionalSchema) {
-        conditionalSchema.accept(new ConditionalSchemaValidatingVisitor(subject, this));
+    void visitConditionalSchema(ConditionalSchema conditionalSchema, List<String> path) {
+        conditionalSchema.accept(new ConditionalSchemaValidatingVisitor(subject, this), path);
     }
 
-    private void reportSchemaMatchEvent(CombinedSchema schema, Schema subschema, ValidationException failure) {
+    private void reportSchemaMatchEvent(CombinedSchema schema, Schema subschema, ValidationException failure, List<String> path) {
         if (failure == null) {
-            validationListener.combinedSchemaMatch(new CombinedSchemaMatchEvent(schema, subschema, subject));
+            validationListener.combinedSchemaMatch(new CombinedSchemaMatchEvent(schema, subschema, subject, path));
         } else {
-            validationListener.combinedSchemaMismatch(new CombinedSchemaMismatchEvent(schema, subschema, subject, failure));
+            validationListener.combinedSchemaMismatch(new CombinedSchemaMismatchEvent(schema, subschema, subject, failure, path));
         }
     }
 
-    ValidationException getFailureOfSchema(Schema schema, Object input) {
+    ValidationException getFailureOfSchema(Schema schema, Object input, List<String> path) {
         Object origSubject = this.subject;
         this.subject = input;
-        ValidationException rval = failureReporter.inContextOfSchema(schema, () -> visit(schema));
+        ValidationException rval = failureReporter.inContextOfSchema(schema, () -> visit(schema, path));
         this.subject = origSubject;
         return rval;
     }

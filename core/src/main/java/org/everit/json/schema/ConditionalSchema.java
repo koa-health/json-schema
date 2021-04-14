@@ -1,5 +1,7 @@
 package org.everit.json.schema;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -65,7 +67,13 @@ public class ConditionalSchema extends Schema {
 
     @Override
     void accept(Visitor visitor) {
-        visitor.visitConditionalSchema(this);
+        visitor.visitConditionalSchema(this, new ArrayList<>());
     }
+
+    @Override
+    void accept(Visitor visitor, List<String> path) {
+        visitor.visitConditionalSchema(this, path);
+    }
+
 
 }

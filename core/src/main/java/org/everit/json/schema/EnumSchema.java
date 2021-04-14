@@ -102,8 +102,11 @@ public class EnumSchema extends Schema {
         return Objects.hash(super.hashCode(), possibleValues);
     }
 
-    @Override public void accept(Visitor visitor) {
-        visitor.visitEnumSchema(this);
+    @Override public void accept(Visitor visitor) {    visitor.visitEnumSchema(this, new ArrayList<>()); }
+
+    @Override
+    void accept(Visitor visitor, List<String> path) {
+        visitor.visitEnumSchema(this, path);
     }
 
     @Override

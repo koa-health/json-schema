@@ -4,11 +4,18 @@ import org.everit.json.schema.CombinedSchema;
 import org.everit.json.schema.Schema;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CombinedSchemaMatchEvent extends CombinedSchemaValidationEvent {
 
     public CombinedSchemaMatchEvent(CombinedSchema schema, Schema subSchema,
-            Object instance) {
-        super(schema, subSchema, instance);
+                                    Object instance) {
+        super(schema, subSchema, instance, new ArrayList<>());
+    }
+    public CombinedSchemaMatchEvent(CombinedSchema schema, Schema subSchema,
+                                    Object instance, List<String> path) {
+        super(schema, subSchema, instance, path);
     }
 
     @Override void describeTo(JSONObject obj) {

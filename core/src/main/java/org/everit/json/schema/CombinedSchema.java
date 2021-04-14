@@ -197,7 +197,12 @@ public class CombinedSchema extends Schema {
     }
 
     @Override void accept(Visitor visitor) {
-        visitor.visitCombinedSchema(this);
+        visitor.visitCombinedSchema(this, new ArrayList<>());
+    }
+
+    @Override
+    void accept(Visitor visitor, List<String> path) {
+        visitor.visitCombinedSchema(this, path);
     }
 
     @Override

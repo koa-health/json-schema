@@ -2,9 +2,7 @@ package org.everit.json.schema;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * This class is used by {@link org.everit.json.schema.loader.SchemaLoader} to resolve JSON pointers
@@ -165,7 +163,12 @@ public class ReferenceSchema extends Schema {
     }
 
     @Override void accept(Visitor visitor) {
-        visitor.visitReferenceSchema(this);
+        visitor.visitReferenceSchema(this, new ArrayList<>());
+    }
+
+    @Override
+    void accept(Visitor visitor, List<String> path) {
+        visitor.visitReferenceSchema(this, path);
     }
 
     @Override public Map<String, Object> getUnprocessedProperties() {

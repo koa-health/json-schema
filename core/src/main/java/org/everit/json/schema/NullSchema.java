@@ -1,5 +1,8 @@
 package org.everit.json.schema;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * {@code Null} schema validator.
  */
@@ -50,7 +53,12 @@ public class NullSchema extends Schema {
     }
 
     @Override void accept(Visitor visitor) {
-        visitor.visitNullSchema(this);
+        visitor.visitNullSchema(this, new ArrayList<>());
+    }
+
+    @Override
+    void accept(Visitor visitor, List<String> path) {
+        visitor.visitNullSchema(this, path);
     }
 
 }

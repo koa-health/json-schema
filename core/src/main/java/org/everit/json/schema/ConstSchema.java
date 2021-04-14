@@ -1,5 +1,8 @@
 package org.everit.json.schema;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.everit.json.schema.EnumSchema.toJavaValue;
 
 public class ConstSchema extends Schema {
@@ -30,7 +33,12 @@ public class ConstSchema extends Schema {
     }
 
     @Override void accept(Visitor visitor) {
-        visitor.visitConstSchema(this);
+        visitor.visitConstSchema(this, new ArrayList<>());
+    }
+
+    @Override
+    void accept(Visitor visitor, List<String> path) {
+        visitor.visitConstSchema(this, path);
     }
 
     public Object getPermittedValue() {

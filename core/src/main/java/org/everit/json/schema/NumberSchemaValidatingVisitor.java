@@ -1,6 +1,7 @@
 package org.everit.json.schema;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.everit.json.schema.NumberComparator.compare;
 import static org.everit.json.schema.NumberComparator.getAsBigDecimal;
@@ -24,11 +25,11 @@ class NumberSchemaValidatingVisitor extends Visitor {
     }
 
     @Override
-    void visitNumberSchema(NumberSchema numberSchema) {
+    void visitNumberSchema(NumberSchema numberSchema, List<String> path) {
         Class expectedType = numberSchema.requiresInteger() ? Integer.class : Number.class;
         if (owner.passesTypeCheck(expectedType, numberSchema.requiresInteger() || numberSchema.isRequiresNumber(), numberSchema.isNullable())) {
             this.numberSubject = ((Number) subject);
-            super.visitNumberSchema(numberSchema);
+            super.visitNumberSchema(numberSchema, path);
         }
     }
 

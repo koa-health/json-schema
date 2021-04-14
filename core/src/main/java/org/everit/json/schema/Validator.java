@@ -1,5 +1,7 @@
 package org.everit.json.schema;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.function.BiFunction;
 
 import org.everit.json.schema.event.ValidationListener;
@@ -57,11 +59,15 @@ class DefaultValidator implements Validator {
     }
 
     @Override public void performValidation(Schema schema, Object input) {
+        performValidation(schema, input, Collections.singletonList("#"));
+    }
+
+    public void performValidation(Schema schema, Object input, List<String> path) {
         ValidationFailureReporter failureReporter = createFailureReporter(schema);
         ReadWriteValidator readWriteValidator = ReadWriteValidator.createForContext(readWriteContext, failureReporter);
         ValidatingVisitor visitor = new ValidatingVisitor(input, failureReporter, readWriteValidator, validationListener);
         try {
-            visitor.visit(schema);
+            visitor.visit(schema, path);
             visitor.failIfErrorFound();
         } catch (InternalValidationException e) {
             throw e.copy();

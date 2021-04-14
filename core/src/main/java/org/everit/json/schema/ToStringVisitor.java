@@ -25,7 +25,7 @@ class ToStringVisitor extends Visitor {
         this.writer = writer;
     }
 
-    @Override void visitSchema(Schema schema) {
+    @Override void visitSchema(Schema schema, List<String> path) {
         if (schema == null) {
             return;
         }
@@ -38,7 +38,7 @@ class ToStringVisitor extends Visitor {
         writer.ifPresent("default", schema.getDefaultValue());
         writer.ifPresent("readOnly", schema.isReadOnly());
         writer.ifPresent("writeOnly", schema.isWriteOnly());
-        super.visitSchema(schema);
+        super.visitSchema(schema, path);
         Object schemaKeywordValue = schema.getUnprocessedProperties().get("$schema");
         String idKeyword = deduceSpecVersion(schemaKeywordValue).idKeyword();
         writer.ifPresent(idKeyword, schema.getId());
@@ -77,14 +77,14 @@ class ToStringVisitor extends Visitor {
     }
 
     @Override
-    void visitBooleanSchema(BooleanSchema schema) {
+    void visitBooleanSchema(BooleanSchema schema, List<String> path) {
         printInJsonObject(() -> {
-            super.visitBooleanSchema(schema);
+            super.visitBooleanSchema(schema, path);
             writer.key("type").value("boolean");
         });
     }
 
-    @Override void visitArraySchema(ArraySchema schema) {
+    @Override void visitArraySchema(ArraySchema schema, List<String> path) {
         printInJsonObject(() -> {
             if (schema.requiresArray()) {
                 writer.key("type").value("array");
@@ -93,64 +93,64 @@ class ToStringVisitor extends Visitor {
                     .ifPresent("minItems", schema.getMinItems())
                     .ifPresent("maxItems", schema.getMaxItems())
                     .ifFalse("additionalItems", schema.permitsAdditionalItems());
-            super.visitArraySchema(schema);
+            super.visitArraySchema(schema, path);
         });
     }
 
-    @Override void visit(Schema schema) {
+    @Override void visit(Schema schema, List<String> path) {
         boolean orig = jsonObjectIsOpenForCurrentSchemaInstance;
         jsonObjectIsOpenForCurrentSchemaInstance = false;
-        super.visit(schema);
+        super.visit(schema, path);
         jsonObjectIsOpenForCurrentSchemaInstance = orig;
     }
 
-    @Override void visitAllItemSchema(Schema allItemSchema) {
+    @Override void visitAllItemSchema(Schema allItemSchema, List<String> path) {
         writer.key("items");
-        visit(allItemSchema);
+        visit(allItemSchema, path);
     }
 
-    @Override void visitEmptySchema(EmptySchema emptySchema) {
+    @Override void visitEmptySchema(EmptySchema emptySchema, List<String> path) {
         if (emptySchema instanceof TrueSchema) {
             writer.value(true);
         } else {
-            printInJsonObject(() -> super.visitEmptySchema(emptySchema));
+            printInJsonObject(() -> super.visitEmptySchema(emptySchema, path));
         }
     }
 
-    @Override void visitItemSchemas(List<Schema> itemSchemas) {
+    @Override void visitItemSchemas(List<Schema> itemSchemas, List<String> path) {
         writer.key("items");
         writer.array();
-        super.visitItemSchemas(itemSchemas);
+        super.visitItemSchemas(itemSchemas, path);
         writer.endArray();
     }
 
-    @Override void visitItemSchema(int index, Schema itemSchema) {
-        visit(itemSchema);
+    @Override void visitItemSchema(int index, Schema itemSchema, List<String> path) {
+        visit(itemSchema, path);
     }
 
-    @Override void visitSchemaOfAdditionalItems(Schema schemaOfAdditionalItems) {
+    @Override void visitSchemaOfAdditionalItems(Schema schemaOfAdditionalItems, List<String> path) {
         writer.key("additionalItems");
-        visit(schemaOfAdditionalItems);
+        visit(schemaOfAdditionalItems, path);
     }
 
-    @Override void visitContainedItemSchema(Schema containedItemSchema) {
+    @Override void visitContainedItemSchema(Schema containedItemSchema, List<String> path) {
         writer.key("contains");
-        visit(containedItemSchema);
+        visit(containedItemSchema, path);
     }
 
-    @Override void visitConditionalSchema(ConditionalSchema conditionalSchema) {
-        printInJsonObject(() -> super.visitConditionalSchema(conditionalSchema));
+    @Override void visitConditionalSchema(ConditionalSchema conditionalSchema, List<String> path) {
+        printInJsonObject(() -> super.visitConditionalSchema(conditionalSchema, path));
     }
 
-    @Override void visitNotSchema(NotSchema notSchema) {
+    @Override void visitNotSchema(NotSchema notSchema, List<String> path) {
         printInJsonObject(() -> {
-            visitSchema(notSchema);
+            visitSchema(notSchema, path);
             writer.key("not");
             notSchema.getMustNotMatch().accept(this);
         });
     }
 
-    @Override void visitNumberSchema(NumberSchema schema) {
+    @Override void visitNumberSchema(NumberSchema schema, List<String> path) {
         printInJsonObject(() -> {
             if (schema.requiresInteger()) {
                 writer.key("type").value("integer");
@@ -168,19 +168,19 @@ class ToStringVisitor extends Visitor {
             } catch (JSONException e) {
                 throw new IllegalStateException("overloaded use of exclusiveMinimum or exclusiveMaximum keyword");
             }
-            super.visitNumberSchema(schema);
+            super.visitNumberSchema(schema, path);
         });
     }
 
-    @Override void visitConstSchema(ConstSchema constSchema) {
+    @Override void visitConstSchema(ConstSchema constSchema, List<String> path) {
         printInJsonObject(() -> {
             writer.key("const");
             writer.value(constSchema.getPermittedValue());
-            super.visitConstSchema(constSchema);
+            super.visitConstSchema(constSchema, path);
         });
     }
 
-    @Override void visitObjectSchema(ObjectSchema schema) {
+    @Override void visitObjectSchema(ObjectSchema schema, List<String> path) {
         printInJsonObject(() -> {
             if (schema.requiresObject()) {
                 writer.key("type").value("object");
@@ -192,22 +192,22 @@ class ToStringVisitor extends Visitor {
             }
             if (!schema.getSchemaDependencies().isEmpty()) {
                 writer.key("dependencies");
-                printSchemaMap(schema.getSchemaDependencies());
+                printSchemaMap(schema.getSchemaDependencies(), path);
             }
             writer.ifFalse("additionalProperties", schema.permitsAdditionalProperties());
-            super.visitObjectSchema(schema);
+            super.visitObjectSchema(schema, path);
         });
     }
 
-    @Override void visitRequiredProperties(List<String> requiredProperties) {
+    @Override void visitRequiredProperties(List<String> requiredProperties, List<String> path) {
         if (!requiredProperties.isEmpty()) {
             writer.key("required").value(requiredProperties);
         }
     }
 
-    @Override void visitSchemaOfAdditionalProperties(Schema schemaOfAdditionalProperties) {
+    @Override void visitSchemaOfAdditionalProperties(Schema schemaOfAdditionalProperties, List<String> path) {
         writer.key("additionalProperties");
-        visit(schemaOfAdditionalProperties);
+        visit(schemaOfAdditionalProperties, path);
     }
 
     private void describePropertyDependencies(Map<String, Set<String>> propertyDependencies) {
@@ -222,80 +222,80 @@ class ToStringVisitor extends Visitor {
         writer.endObject();
     }
 
-    @Override void visitPropertyNameSchema(Schema propertyNameSchema) {
+    @Override void visitPropertyNameSchema(Schema propertyNameSchema, List<String> path) {
         writer.key("propertyNames");
-        visit(propertyNameSchema);
+        visit(propertyNameSchema, path);
     }
 
-    @Override void visitPropertySchemas(Map<String, Schema> propertySchemas) {
+    @Override void visitPropertySchemas(Map<String, Schema> propertySchemas, List<String> path) {
         if (!propertySchemas.isEmpty()) {
             writer.key("properties");
-            printSchemaMap(propertySchemas);
+            printSchemaMap(propertySchemas, path);
         }
     }
 
-    private void printSchemaMap(Map<?, Schema> schemas) {
+    private void printSchemaMap(Map<?, Schema> schemas, List<String> path) {
         writer.object();
         schemas.forEach((key, value) -> {
             writer.key(key.toString());
-            visit(value);
+            visit(value, path);
         });
         writer.endObject();
     }
 
-    @Override void visitPatternProperties(Map<Regexp, Schema> patternProperties) {
+    @Override void visitPatternProperties(Map<Regexp, Schema> patternProperties, List<String> path) {
         if (!patternProperties.isEmpty()) {
             writer.key("patternProperties");
-            printSchemaMap(patternProperties);
+            printSchemaMap(patternProperties, path);
         }
     }
 
-    @Override void visitCombinedSchema(CombinedSchema combinedSchema) {
+    @Override void visitCombinedSchema(CombinedSchema combinedSchema, List<String> path) {
         printInJsonObject(() -> {
-            super.visitCombinedSchema(combinedSchema);
+            super.visitCombinedSchema(combinedSchema, path);
             if (combinedSchema.isSynthetic()) {
                 combinedSchema.getSubschemas().forEach(subschema -> {
                     this.skipNextObject = true;
-                    super.visit(subschema);
+                    super.visit(subschema, path);
                 });
             } else {
                 writer.key(combinedSchema.getCriterion().toString());
                 writer.array();
-                combinedSchema.getSubschemas().forEach(subschema -> subschema.accept(this));
+                combinedSchema.getSubschemas().forEach(subschema -> subschema.accept(this, path));
                 writer.endArray();
             }
         });
 
     }
 
-    @Override void visitIfSchema(Schema ifSchema) {
+    @Override void visitIfSchema(Schema ifSchema, List<String> path) {
         writer.key("if");
-        visit(ifSchema);
+        visit(ifSchema, path);
     }
 
-    @Override void visitThenSchema(Schema thenSchema) {
+    @Override void visitThenSchema(Schema thenSchema, List<String> path) {
         writer.key("then");
-        visit(thenSchema);
+        visit(thenSchema, path);
     }
 
-    @Override void visitElseSchema(Schema elseSchema) {
+    @Override void visitElseSchema(Schema elseSchema, List<String> path) {
         writer.key("else");
-        visit(elseSchema);
+        visit(elseSchema, path);
     }
 
-    @Override void visitFalseSchema(FalseSchema falseSchema) {
+    @Override void visitFalseSchema(FalseSchema falseSchema, List<String> path) {
         writer.value(false);
     }
 
-    @Override void visitNullSchema(NullSchema nullSchema) {
+    @Override void visitNullSchema(NullSchema nullSchema, List<String> path) {
         printInJsonObject(() -> {
             writer.key("type");
             writer.value("null");
-            super.visitNullSchema(nullSchema);
+            super.visitNullSchema(nullSchema, path);
         });
     }
 
-    @Override void visitStringSchema(StringSchema schema) {
+    @Override void visitStringSchema(StringSchema schema, List<String> path) {
         printInJsonObject(() -> {
             if (schema.requireString()) {
                 writer.key("type").value("string");
@@ -306,25 +306,25 @@ class ToStringVisitor extends Visitor {
             if (schema.getFormatValidator() != null && !NONE.equals(schema.getFormatValidator())) {
                 writer.key("format").value(schema.getFormatValidator().formatName());
             }
-            super.visitStringSchema(schema);
+            super.visitStringSchema(schema, path);
         });
     }
 
-    @Override void visitEnumSchema(EnumSchema schema) {
+    @Override void visitEnumSchema(EnumSchema schema, List<String> path) {
         printInJsonObject(() -> {
             writer.key("enum");
             writer.array();
             schema.getPossibleValues().forEach(writer::value);
             writer.endArray();
-            super.visitEnumSchema(schema);
+            super.visitEnumSchema(schema, path);
         });
     }
 
-    @Override void visitReferenceSchema(ReferenceSchema referenceSchema) {
+    @Override void visitReferenceSchema(ReferenceSchema referenceSchema, List<String> path) {
         printInJsonObject(() -> {
             writer.key("$ref");
             writer.value(referenceSchema.getReferenceValue());
-            super.visitReferenceSchema(referenceSchema);
+            super.visitReferenceSchema(referenceSchema, path);
         });
     }
 }

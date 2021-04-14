@@ -269,7 +269,12 @@ public class ObjectSchema extends Schema {
     }
 
     @Override void accept(Visitor visitor) {
-        visitor.visitObjectSchema(this);
+        visitor.visitObjectSchema(this, new ArrayList<>());
+    }
+
+    @Override
+    void accept(Visitor visitor, List<String> path) {
+        visitor.visitObjectSchema(this, path);
     }
 
     public boolean permitsAdditionalProperties() {

@@ -1,5 +1,7 @@
 package org.everit.json.schema.event;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import org.everit.json.schema.ReferenceSchema;
@@ -11,7 +13,12 @@ public class SchemaReferencedEvent extends ValidationEvent<ReferenceSchema> {
     private final Schema referredSchema;
 
     public SchemaReferencedEvent(ReferenceSchema schema, Object instance, Schema referredSchema) {
-        super(schema, instance);
+        super(schema, instance, new ArrayList<>());
+        this.referredSchema = referredSchema;
+    }
+    public SchemaReferencedEvent(ReferenceSchema schema, Object instance, Schema referredSchema, 
+                                 List<String> path) {
+        super(schema, instance, path);
         this.referredSchema = referredSchema;
     }
 

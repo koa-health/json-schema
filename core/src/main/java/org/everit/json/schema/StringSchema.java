@@ -3,6 +3,8 @@ package org.everit.json.schema;
 import static java.util.Objects.requireNonNull;
 import static org.everit.json.schema.FormatValidator.NONE;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import org.everit.json.schema.regexp.JavaUtilRegexpFactory;
@@ -127,7 +129,12 @@ public class StringSchema extends Schema {
     }
 
     @Override void accept(Visitor visitor) {
-        visitor.visitStringSchema(this);
+        visitor.visitStringSchema(this, new ArrayList<>());
+    }
+
+    @Override
+    void accept(Visitor visitor, List<String> path) {
+        visitor.visitStringSchema(this, path);
     }
 
     @Override
