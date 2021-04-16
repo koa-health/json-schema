@@ -4,12 +4,12 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
-import org.everit.json.schema.internal.DateTimeFormatValidator;
-import org.everit.json.schema.internal.EmailFormatValidator;
-import org.everit.json.schema.internal.HostnameFormatValidator;
-import org.everit.json.schema.internal.IPV4Validator;
-import org.everit.json.schema.internal.IPV6Validator;
-import org.everit.json.schema.internal.URIFormatValidator;
+import com.koa.data.json.schema.internal.DateTimeFormatValidator;
+import com.koa.data.json.schema.internal.EmailFormatValidator;
+import com.koa.data.json.schema.internal.HostnameFormatValidator;
+import com.koa.data.json.schema.internal.IPV4Validator;
+import com.koa.data.json.schema.internal.IPV6Validator;
+import com.koa.data.json.schema.internal.URIFormatValidator;
 
 /**
  * Implementations perform the validation against the "format" keyword (see JSON Schema spec section

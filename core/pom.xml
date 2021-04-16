@@ -29,8 +29,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <jacoco.version>0.8.6</jacoco.version>
     </properties>
-    <name>everit-org/json-schema</name>
-    <url>https://github.com/everit-org/json-schema</url>
+    <name>koa-health/json-schema</name>
+    <url>https://github.com/koa-health/json-schema</url>
     <description>Implementation of the JSON Schema Core Draft v4 specification built with the org.json API</description>
     <licenses>
         <license>
@@ -41,17 +41,17 @@
     </licenses>
     <developers>
         <developer>
-            <name>Everit Team</name>
+            <name>Koa Health Data Team</name>
         </developer>
     </developers>
     <organization>
-        <name>Everit Kft.</name>
-        <url>http://www.everit.org</url>
+        <name>Koa Health</name>
+        <url>http://koahealth.com</url>
     </organization>
     <scm>
-        <connection>scm:git:git://github.com/everit-org/json-schema.git</connection>
-        <developerConnection>scm:git:https://github.com/everit-org/json-schema.git</developerConnection>
-        <url>https://github.com/everit-org/json-schema</url>
+        <connection>scm:git:git://github.com/koa-health/json-schema.git</connection>
+        <developerConnection>scm:git:https://github.com/koa-health/json-schema.git</developerConnection>
+        <url>https://github.com/koa-health/json-schema</url>
     </scm>
     <build>
         <plugins>
@@ -66,10 +66,10 @@
                         <Import-Package>*
                         </Import-Package>
                         <Export-Package>
-                            org.everit.json.schema;version=${project.version},
-                            org.everit.json.schema.loader;version=${project.version},
-                            org.everit.json.schema.regexp;version=${project.version},
-                            org.everit.json.schema.event;version=${project.version}
+                            com.koa.data.json.schema;version=${project.version},
+                            com.koa.data.json.schema.loader;version=${project.version},
+                            com.koa.data.json.schema.regexp;version=${project.version},
+                            com.koa.data.json.schema.event;version=${project.version}
                         </Export-Package>
                     </instructions>
                 </configuration>
@@ -137,12 +137,12 @@
                 <version>0.13.0</version>
                 <configuration>
                     <oldVersion>
-                        <dependency>
-                            <groupId>com.github.everit-org.json-schema</groupId>
-                            <artifactId>org.everit.json.schema</artifactId>
-                            <version>1.12.2</version>
-                            <type>jar</type>
-                        </dependency>
+<!--                        <dependency>-->
+<!--                            <groupId>com.github.everit-org.json-schema</groupId>-->
+<!--                            <artifactId>org.everit.json.schema</artifactId>-->
+<!--                            <version>1.12.2</version>-->
+<!--                            <type>jar</type>-->
+<!--                        </dependency>-->
                     </oldVersion>
                     <newVersion>
                         <file>
@@ -279,9 +279,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.everit-org.json-schema</groupId>
-            <artifactId>org.everit.json.schema</artifactId>
-            <version>1.12.2</version>
+            <groupId>com.github.koa-health.json-schema</groupId>
+            <artifactId>com.koa.data.json.schema</artifactId>
+            <version>1.12.2-KOA</version>
         </dependency>
     </dependencies>
 

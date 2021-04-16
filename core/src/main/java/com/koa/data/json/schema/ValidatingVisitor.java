@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.everit.json.schema.event.CombinedSchemaMatchEvent;
-import org.everit.json.schema.event.CombinedSchemaMismatchEvent;
-import org.everit.json.schema.event.SchemaReferencedEvent;
-import org.everit.json.schema.event.ValidationListener;
+import com.koa.data.json.schema.event.CombinedSchemaMatchEvent;
+import com.koa.data.json.schema.event.CombinedSchemaMismatchEvent;
+import com.koa.data.json.schema.event.SchemaReferencedEvent;
+import com.koa.data.json.schema.event.ValidationListener;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

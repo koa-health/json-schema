@@ -1,6 +1,6 @@
 package com.koa.data.json.schema;
 
-import org.everit.json.schema.internal.JSONPrinter;
+import com.koa.data.json.schema.internal.JSONPrinter;
 
 /**
  * @author erosb

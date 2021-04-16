@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.everit.json.schema.internal.TemporalFormatValidator.SECONDS_FRACTION_FORMATTER;
+import static com.koa.data.json.schema.internal.TemporalFormatValidator.SECONDS_FRACTION_FORMATTER;
 
 /**
  * Implementation of the "date-time" format value.

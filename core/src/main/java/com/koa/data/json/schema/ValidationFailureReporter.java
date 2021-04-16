@@ -1,37 +1,33 @@
 package com.koa.data.json.schema;
 
-import org.everit.json.schema.InternalValidationException;
-import org.everit.json.schema.Schema;
-import org.everit.json.schema.ValidationException;
-
 import static java.util.Objects.requireNonNull;
 
 /**
- * Internal interface receiving validation failures. Implementations are supposed to throw or collect {@link org.everit.json.schema.ValidationException} instances.
+ * Internal interface receiving validation failures. Implementations are supposed to throw or collect {@link ValidationException} instances.
  * <p>
- * The validation always happens in the context of some "current schema". This {@link org.everit.json.schema.Schema} instance will
- * be the {@link org.everit.json.schema.ValidationException#getViolatedSchema() violated schema} of the {@code ValidationException}s created.
+ * The validation always happens in the context of some "current schema". This {@link Schema} instance will
+ * be the {@link ValidationException#getViolatedSchema() violated schema} of the {@code ValidationException}s created.
  * </p>
  */
 abstract class ValidationFailureReporter {
 
-    protected org.everit.json.schema.Schema schema;
+    protected Schema schema;
 
-    ValidationFailureReporter(org.everit.json.schema.Schema schema) {
+    ValidationFailureReporter(Schema schema) {
         this.schema = requireNonNull(schema, "schema cannot be null");
     }
 
     void failure(String message, String keyword) {
-        failure(new org.everit.json.schema.InternalValidationException(schema, message, keyword, schema.getSchemaLocation()));
+        failure(new InternalValidationException(schema, message, keyword, schema.getSchemaLocation()));
     }
 
     void failure(Class<?> expectedType, Object actualValue) {
-        failure(new org.everit.json.schema.InternalValidationException(schema, expectedType, actualValue, "type", schema.getSchemaLocation()));
+        failure(new InternalValidationException(schema, expectedType, actualValue, "type", schema.getSchemaLocation()));
     }
 
-    abstract void failure(org.everit.json.schema.ValidationException exc);
+    abstract void failure(ValidationException exc);
 
-    ValidationException inContextOfSchema(org.everit.json.schema.Schema schema, Runnable task) {
+    ValidationException inContextOfSchema(Schema schema, Runnable task) {
         requireNonNull(schema, "schema cannot be null");
         Schema origSchema = this.schema;
         this.schema = schema;

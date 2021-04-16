@@ -6,10 +6,10 @@
     <parent>
         <groupId>com.koa.data</groupId>
         <artifactId>com.koa.data.json.schema.tests.parent</artifactId>
-        <version>1.12.2</version>
+        <version>1.12.2-KOA</version>
     </parent>
 
-    <artifactId>org.everit.json.schema.tests.vanilla</artifactId>
+    <artifactId>com.koa.data.json.schema.tests.vanilla</artifactId>
 
     <build>
         <plugins>
@@ -35,8 +35,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.everit.json</groupId>
-            <artifactId>org.everit.json.schema</artifactId>
+            <groupId>com.koa.data.json</groupId>
+            <artifactId>com.koa.data.json.schema</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

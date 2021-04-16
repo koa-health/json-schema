@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.koa.data</groupId>
         <artifactId>com.koa.data.json.schema.parent</artifactId>
-        <version>1.12.2</version>
+        <version>1.12.2-KOA</version>
     </parent>
 
     <artifactId>com.koa.data.schema.tests.parent</artifactId>

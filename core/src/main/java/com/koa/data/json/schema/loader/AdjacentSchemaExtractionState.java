@@ -5,10 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.koa.data.json.schema.Schema;
-import com.koa.data.json.schema.schema.Schema;
-import com.koa.data.json.schema.loader.ExtractionResult;
-import com.koa.datajson.schema.loader.JsonObject;
-import com.koa.data.json.schema.loader.ProjectedJsonObject;
 
 class AdjacentSchemaExtractionState {
 

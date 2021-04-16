@@ -2,7 +2,7 @@ package com.koa.data.json.schema;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
-import static org.everit.json.schema.JSONPointer.unescape;
+import static com.koa.data.json.schema.JSONPointer.unescape;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;

@@ -1,17 +1,10 @@
 package com.koa.data.json.schema.loader;
 
+import static com.koa.data.json.schema.loader.LoaderConfig.defaultV4Config;
 import static java.util.Objects.requireNonNull;
-import static org.everit.json.schema.loader.SpecificationVersion.DRAFT_4;
+import static com.koa.data.json.schema.loader.SpecificationVersion.DRAFT_4;
 
 import com.koa.data.json.schema.ArraySchema;
-import com.koa.data.json.schema.schema.ArraySchema;
-import com.koa.data.json.schema.loader.JsonArray;
-import com.koa.data.json.schema.loader.JsonObject;
-import com.koa.data.json.schema.loader.JsonValue;
-import com.koa.data.json.schema.loader.LoaderConfig;
-import com.koa.data.json.schema.loader.LoadingState;
-import com.koa.data.json.schema.loader.SchemaLoader;
-import com.koa.data.json.schema.loader.SpecificationVersion;
 
 /**
  * @author erosb

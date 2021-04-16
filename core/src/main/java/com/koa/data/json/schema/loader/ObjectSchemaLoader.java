@@ -5,14 +5,6 @@ import static com.koa.data.json.schema.loader.SpecificationVersion.DRAFT_6;
 
 import com.koa.data.json.schema.ObjectSchema;
 import com.koa.data.json.schema.Schema;
-import com.koa.data.json.schema.schema.ObjectSchema;
-import com.koa.data.json.schema.schema.Schema;
-import com.koa.data.json.schema.loader.JsonArray;
-import com.koa.data.json.schema.loader.JsonObject;
-import com.koa.data.json.schema.loader.JsonValue;
-import com.koa.data.json.schema.loader.LoaderConfig;
-import com.koa.data.json.schema.loader.LoadingState;
-import com.koa.data.json.schema.loader.SchemaLoader;
 import com.koa.data.json.schema.regexp.Regexp;
 
 /**
@@ -40,7 +32,7 @@ class ObjectSchemaLoader {
                 .ifPresent(propertyDefs -> populatePropertySchemas(propertyDefs, builder));
         ls.schemaJson().maybe("additionalProperties").ifPresent(rawAddProps -> {
             rawAddProps.canBe(Boolean.class, p -> builder.additionalProperties(p))
-                    .or(org.everit.json.schema.loader.JsonObject.class, def -> builder.schemaOfAdditionalProperties(defaultLoader.loadChild(def).build()))
+                    .or(JsonObject.class, def -> builder.schemaOfAdditionalProperties(defaultLoader.loadChild(def).build()))
                     .requireAny();
         });
         ls.schemaJson().maybe("required").map(JsonValue::requireArray)

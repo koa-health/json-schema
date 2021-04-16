@@ -1,12 +1,12 @@
 package com.koa.data.json.schema.loader.internal;
 
+import com.koa.data.json.schema.loader.SchemaClient;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.net.URL;
 import java.net.URLConnection;
-
-import org.everit.json.schema.loader.SchemaClient;
 
 /**
  * A {@link SchemaClient} implementation which uses {@link URL} for reading the remote content.

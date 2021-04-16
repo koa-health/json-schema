@@ -1,9 +1,6 @@
 package com.koa.data.json.schema.loader;
 
 import com.koa.data.json.schema.NumberSchema;
-import com.koa.data.json.schema.schema.NumberSchema;
-import com.koa.data.json.schema.loader.JsonValue;
-import com.koa.data.json.schema.loader.SpecificationVersion;
 
 class V4ExclusiveLimitHandler implements  ExclusiveLimitHandler {
 

@@ -2,14 +2,14 @@ package com.koa.data.json.schema;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
-import static org.everit.json.schema.loader.OrgJsonUtil.getNames;
+import static com.koa.data.json.schema.loader.OrgJsonUtil.getNames;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.everit.json.schema.regexp.Regexp;
+import com.koa.data.json.schema.regexp.Regexp;
 import org.json.JSONObject;
 
 class ObjectSchemaValidatingVisitor extends Visitor {

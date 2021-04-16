@@ -1,20 +1,20 @@
 package com.koa.data.json.schema.loader;
 
-import org.everit.json.schema.FormatValidator;
-import org.everit.json.schema.internal.DateFormatValidator;
-import org.everit.json.schema.internal.DateTimeFormatValidator;
-import org.everit.json.schema.internal.EmailFormatValidator;
-import org.everit.json.schema.internal.HostnameFormatValidator;
-import org.everit.json.schema.internal.IPV4Validator;
-import org.everit.json.schema.internal.IPV6Validator;
-import org.everit.json.schema.internal.JsonPointerFormatValidator;
-import org.everit.json.schema.internal.RegexFormatValidator;
-import org.everit.json.schema.internal.RelativeJsonPointerFormatValidator;
-import org.everit.json.schema.internal.TimeFormatValidator;
-import org.everit.json.schema.internal.URIFormatValidator;
-import org.everit.json.schema.internal.URIReferenceFormatValidator;
-import org.everit.json.schema.internal.URITemplateFormatValidator;
-import org.everit.json.schema.internal.URIV4FormatValidator;
+import com.koa.data.json.schema.FormatValidator;
+import com.koa.data.json.schema.internal.DateFormatValidator;
+import com.koa.data.json.schema.internal.DateTimeFormatValidator;
+import com.koa.data.json.schema.internal.EmailFormatValidator;
+import com.koa.data.json.schema.internal.HostnameFormatValidator;
+import com.koa.data.json.schema.internal.IPV4Validator;
+import com.koa.data.json.schema.internal.IPV6Validator;
+import com.koa.data.json.schema.internal.JsonPointerFormatValidator;
+import com.koa.data.json.schema.internal.RegexFormatValidator;
+import com.koa.data.json.schema.internal.RelativeJsonPointerFormatValidator;
+import com.koa.data.json.schema.internal.TimeFormatValidator;
+import com.koa.data.json.schema.internal.URIFormatValidator;
+import com.koa.data.json.schema.internal.URIReferenceFormatValidator;
+import com.koa.data.json.schema.internal.URITemplateFormatValidator;
+import com.koa.data.json.schema.internal.URIV4FormatValidator;
 
 import java.util.Arrays;
 import java.util.HashMap;

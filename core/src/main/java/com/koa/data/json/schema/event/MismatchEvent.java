@@ -1,7 +1,6 @@
 package com.koa.data.json.schema.event;
 
 import com.koa.data.json.schema.ValidationException;
-import com.koa.data.json.schema.schema.ValidationException;
 
 public interface MismatchEvent {
 

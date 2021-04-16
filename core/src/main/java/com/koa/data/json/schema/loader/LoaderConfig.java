@@ -2,9 +2,9 @@ package com.koa.data.json.schema.loader;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Objects.requireNonNull;
-import static org.everit.json.schema.loader.SpecificationVersion.DRAFT_4;
-import static org.everit.json.schema.loader.SpecificationVersion.DRAFT_6;
-import static org.everit.json.schema.loader.SpecificationVersion.DRAFT_7;
+import static com.koa.data.json.schema.loader.SpecificationVersion.DRAFT_4;
+import static com.koa.data.json.schema.loader.SpecificationVersion.DRAFT_6;
+import static com.koa.data.json.schema.loader.SpecificationVersion.DRAFT_7;
 
 import java.net.URI;
 import java.util.HashMap;

@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.koa.data</groupId>
         <artifactId>com.koa.data.json.schema.tests.parent</artifactId>
-        <version>1.12.2</version>
+        <version>1.12.2-KOA</version>
     </parent>
 
     <artifactId>com.koa.data.json.schema.tests.android</artifactId>
@@ -28,7 +28,7 @@
                 <version>2.22.2</version>
                 <configuration>
                     <dependenciesToScan>
-                        <dependency>org.everit.json:org.everit.json.schema.tests.vanilla</dependency>
+                        <dependency>com.koa.data.json:com.koa.data.json.schema.tests.vanilla</dependency>
                     </dependenciesToScan>
                 </configuration>
 
@@ -44,12 +44,12 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>org.everit.json.schema.tests.vanilla</artifactId>
+            <artifactId>com.koa.data.json.schema.tests.vanilla</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.everit.json</groupId>
-            <artifactId>org.everit.json.schema</artifactId>
+            <groupId>com.koa.data.json</groupId>
+            <artifactId>com.koa.data.json.schema</artifactId>
             <version>${project.version}</version>
             <exclusions>
                 <exclusion>

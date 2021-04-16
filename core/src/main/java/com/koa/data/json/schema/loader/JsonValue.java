@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-importcom.koa.data.json.schema.SchemaException;
+import com.koa.data.json.schema.SchemaException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

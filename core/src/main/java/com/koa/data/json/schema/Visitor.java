@@ -1,11 +1,11 @@
 package com.koa.data.json.schema;
 
+import com.koa.data.json.schema.regexp.Regexp;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.everit.json.schema.regexp.Regexp;
 
 abstract class Visitor {
 
