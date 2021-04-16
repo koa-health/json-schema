@@ -79,7 +79,7 @@ class ObjectSchemaValidatingVisitor extends Visitor {
         }
     }
 
-    @Override void visitPropertyDependencies(String ifPresent, Set<String> allMustBePresent) {
+    @Override void visitPropertyDependencies(String ifPresent, Set<String> allMustBePresent, List<String> path) {
         if (objSubject.has(ifPresent)) {
             for (String mustBePresent : allMustBePresent) {
                 if (!objSubject.has(mustBePresent)) {
