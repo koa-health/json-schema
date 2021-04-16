@@ -1,9 +1,5 @@
 package com.koa.data.json.schema;
 
-import com.koa.data.json.schema.Schema;
-import com.koa.data.json.schema.ValidationException;
-import com.koa.data.json.schema.ValidationFailureReporter;
-
 class EarlyFailingFailureReporter extends ValidationFailureReporter {
 
     public EarlyFailingFailureReporter(Schema schema) {

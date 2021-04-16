@@ -1,9 +1,5 @@
 package com.koa.data.json.schema.loader;
 
-import com.koa.data.json.schema.loader.JsonArray;
-import com.koa.data.json.schema.loader.JsonObject;
-import com.koa.data.json.schema.loader.JsonValue;
-
 import java.util.HashMap;
 import java.util.Map;
 

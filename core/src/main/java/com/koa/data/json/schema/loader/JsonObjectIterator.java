@@ -1,7 +1,5 @@
 package com.koa.data.json.schema.loader;
 
-import com.koa.data.json.schema.loader.JsonValue;
-
 /**
  * @author erosb
  */

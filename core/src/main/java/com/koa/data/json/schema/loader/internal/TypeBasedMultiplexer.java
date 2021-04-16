@@ -40,7 +40,7 @@ public class TypeBasedMultiplexer {
     /**
      * An {@link OnTypeConsumer} implementation which wraps the action ({@code obj} consumer} set by
      * {@link #then(Consumer)} into an other consumer which maintains
-     * {@link org.everit.json.schema.loader.LoadingState#id}.
+     * {@link LoadingState#id}.
      */
     private class IdModifyingTypeConsumerImpl extends OnTypeConsumerImpl<JSONObject> {
 
@@ -51,7 +51,7 @@ public class TypeBasedMultiplexer {
         /**
          * Puts the {@code consumer} action with the {@code key} to the {@link TypeBasedMultiplexer}'s
          * action map, and wraps the consumer to an other consumer which properly maintains the
-         * {@link org.everit.json.schema.loader.LoadingState#id} attribute.
+         * {@link LoadingState#id} attribute.
          *
          * @see {@link TypeBasedMultiplexer#ifObject()} for more details about the wrapping.
          */

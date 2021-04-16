@@ -1,6 +1,5 @@
 package com.koa.data.json.schema.event;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 

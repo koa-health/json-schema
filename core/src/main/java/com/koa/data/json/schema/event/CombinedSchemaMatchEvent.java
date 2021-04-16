@@ -4,7 +4,6 @@ import com.koa.data.json.schema.CombinedSchema;
 import com.koa.data.json.schema.Schema;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CombinedSchemaMatchEvent extends CombinedSchemaValidationEvent {

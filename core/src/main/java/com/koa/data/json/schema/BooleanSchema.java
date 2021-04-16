@@ -1,9 +1,7 @@
 package com.koa.data.json.schema;
 
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-import com.koa.data.json.schema.internal.JSONPrinter;
 
 /**
  * Boolean schema validator.

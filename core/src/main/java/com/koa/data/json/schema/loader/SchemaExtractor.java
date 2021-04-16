@@ -17,17 +17,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.koa.data.json.schema.*;
-import com.koa.data.json.schema.schema.*;
-import com.koa.data.json.schema.loader.ArraySchemaLoader;
-import com.koa.data.json.schema.loader.ExclusiveLimitHandler;
-import com.koa.data.json.schema.loader.JsonArray;
-import com.koa.data.json.schema.loader.JsonObject;
-import com.koa.data.json.schema.loader.JsonValue;
-import com.koa.data.json.schema.loader.LoaderConfig;
-import com.koa.data.json.schema.loader.ObjectSchemaLoader;
-import com.koa.data.json.schema.loader.ReferenceLookup;
-import com.koa.data.json.schema.loader.SchemaLoader;
-import com.koa.data.json.schema.loader.StringSchemaLoader;
 
 class KeyConsumer {
 
